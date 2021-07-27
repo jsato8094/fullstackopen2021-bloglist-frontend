@@ -10,6 +10,7 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  const [message, setMessage] = useState('')
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -38,7 +39,9 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
+      setMessage('')
     } catch (exception) {
+      setMessage('wrong credentials')
       console.log('failed to login')
     }
   }
@@ -57,6 +60,7 @@ const App = () => {
           <div>
           username
             <input
+              id='username'
               type="text"
               value={username}
               name="Username"
@@ -66,14 +70,18 @@ const App = () => {
           <div>
           password
             <input
+              id='password'
               type="password"
               value={password}
               name="Password"
               onChange={({ target }) => setPassword(target.value)}
             />
           </div>
-          <button type="submit">login</button>
+          <button id='login-button' type="submit">login</button>
         </form>
+        <div>
+          <p>{message}</p>
+        </div>
       </div>
     )
   }
@@ -86,7 +94,12 @@ const App = () => {
         <button onClick={handleLogout}>logout</button>
       </p>
       <Togglable buttonLabel="create new blog">
-        <BlogForm createBlog={blogService.create} />
+        <BlogForm
+          createBlog={blogService.create}
+          appendBlogList={(blog) => {
+            setBlogs( [...blogs, blog] )
+          }}
+        />
       </Togglable>
       <div>
         {blogs.map(blog =>

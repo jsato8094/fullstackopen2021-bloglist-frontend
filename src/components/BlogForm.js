@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 
-const BlogForm = ({ createBlog }) => {
+const BlogForm = ({ createBlog, appendBlogList }) => {
 
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
@@ -12,6 +12,7 @@ const BlogForm = ({ createBlog }) => {
     try {
       const newObject = { title, author, url }
       const created = await createBlog(newObject)
+      appendBlogList(created)
       console.log(created, 'is created')
       setTitle('')
       setAuthor('')
@@ -29,6 +30,7 @@ const BlogForm = ({ createBlog }) => {
           <div>
         title:
             <input
+              id='title'
               type="text"
               value={title}
               name="Title"
@@ -38,6 +40,7 @@ const BlogForm = ({ createBlog }) => {
           <div>
         author:
             <input
+              id='author'
               type="text"
               value={author}
               name="Author"
@@ -47,13 +50,14 @@ const BlogForm = ({ createBlog }) => {
           <div>
         url:
             <input
+              id='url'
               type="text"
               value={url}
               name="URL"
               onChange={({ target }) => setUrl(target.value)}
             />
           </div>
-          <button type="submit">create</button>
+          <button id='create-button' type="submit">create</button>
         </form>
       </div>
     </div>
@@ -61,7 +65,8 @@ const BlogForm = ({ createBlog }) => {
 }
 
 BlogForm.propTypes = {
-  createBlog: PropTypes.func.isRequired
+  createBlog: PropTypes.func.isRequired,
+  appendBlogList: PropTypes.func.isRequired
 }
 
 BlogForm.displayName = 'BlogForm'
