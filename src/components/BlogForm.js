@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 
 const BlogForm = ({ createBlog }) => {
@@ -9,7 +10,7 @@ const BlogForm = ({ createBlog }) => {
   const handleCreate = async (event) => {
     event.preventDefault()
     try {
-      const newObject = {title, author, url}
+      const newObject = { title, author, url }
       const created = await createBlog(newObject)
       console.log(created, 'is created')
       setTitle('')
@@ -18,45 +19,51 @@ const BlogForm = ({ createBlog }) => {
     } catch (exception) {
       console.log('failed to create new note')
     }
-  }  
+  }
 
   return (
     <div>
-    <h2>create new</h2>
-    <div>
-    <form onSubmit={handleCreate}>
+      <h2>create new</h2>
       <div>
+        <form onSubmit={handleCreate}>
+          <div>
         title:
-          <input
-          type="text"
-          value={title}
-          name="Title"
-          onChange={({ target }) => setTitle(target.value)}
-        />
-      </div>
-      <div>
+            <input
+              type="text"
+              value={title}
+              name="Title"
+              onChange={({ target }) => setTitle(target.value)}
+            />
+          </div>
+          <div>
         author:
-          <input
-          type="text"
-          value={author}
-          name="Author"
-          onChange={({ target }) => setAuthor(target.value)}
-        />
-      </div>
-      <div>
+            <input
+              type="text"
+              value={author}
+              name="Author"
+              onChange={({ target }) => setAuthor(target.value)}
+            />
+          </div>
+          <div>
         url:
-          <input
-          type="text"
-          value={url}
-          name="URL"
-          onChange={({ target }) => setUrl(target.value)}
-        />
+            <input
+              type="text"
+              value={url}
+              name="URL"
+              onChange={({ target }) => setUrl(target.value)}
+            />
+          </div>
+          <button type="submit">create</button>
+        </form>
       </div>
-      <button type="submit">create</button>
-    </form>
-    </div>
     </div>
   )
 }
+
+BlogForm.propTypes = {
+  createBlog: PropTypes.func.isRequired
+}
+
+BlogForm.displayName = 'BlogForm'
 
 export default BlogForm
